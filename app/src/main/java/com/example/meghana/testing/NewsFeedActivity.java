@@ -205,7 +205,7 @@ public class NewsFeedActivity extends AppCompatActivity
         }
         else if (id == R.id.nav_about){
             AlertDialog.Builder alertDialog = new AlertDialog.Builder(NewsFeedActivity.this);
-            alertDialog.setTitle("DSCE Notify About");
+            alertDialog.setTitle("DSCE Notify Developer");
             alertDialog.setMessage("App developed by Meghana Nekkanti (CSE,DSCE)");
             alertDialog.setPositiveButton("OK",null);
             alertDialog.show();
