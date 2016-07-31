@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -65,7 +67,9 @@ public class NewsFeedActivity extends AppCompatActivity
         //Adding the tabs using addTab() method
         tabLayout.addTab(tabLayout.newTab().setText("Circulars"));
         tabLayout.addTab(tabLayout.newTab().setText("Notes"));
+        tabLayout.setTabTextColors(ColorStateList.valueOf(Color.parseColor("#272727")));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
 
         //Initializing viewPager
         ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
@@ -202,12 +206,11 @@ public class NewsFeedActivity extends AppCompatActivity
             sendIntent.putExtra(Intent.EXTRA_TEXT, "Download the app at http://play.google.com/store/apps/details?id=" + getBaseContext().getPackageName() + " to receive notifications.");
             sendIntent.setType("text/plain");
             startActivity(Intent.createChooser(sendIntent, "DSCE Notify"));
-        }
-        else if (id == R.id.nav_about){
+        } else if (id == R.id.nav_about) {
             AlertDialog.Builder alertDialog = new AlertDialog.Builder(NewsFeedActivity.this);
             alertDialog.setTitle("DSCE Notify Developer");
             alertDialog.setMessage("App developed by Meghana Nekkanti (CSE,DSCE)");
-            alertDialog.setPositiveButton("OK",null);
+            alertDialog.setPositiveButton("OK", null);
             alertDialog.show();
         }
 
