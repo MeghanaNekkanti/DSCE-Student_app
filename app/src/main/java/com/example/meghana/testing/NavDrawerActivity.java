@@ -1,20 +1,18 @@
 package com.example.meghana.testing;
 
-import android.app.ActionBar;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -34,7 +32,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.database.DataSnapshot;
@@ -64,11 +61,16 @@ public class NavDrawerActivity extends AppCompatActivity
     ImageView imageView;
     TextView textView, textView1;
     RecyclerView recyclerView;
-    ArrayList<String> text = new ArrayList<>();
+
+    UpdateAdapter adapter;
+
+    /*ArrayList<String> text = new ArrayList<>();
     ArrayList<String> images = new ArrayList<>();
     ArrayList<String> type = new ArrayList<>();
     ArrayList<String> dname = new ArrayList<>();
-    ArrayList<String> fname = new ArrayList<>();
+    ArrayList<String> fname = new ArrayList<>();*/
+
+    ArrayList<DataModel> dataModelArrayList = new ArrayList<>();
 
     private long backPressedTime = 0;
     private GoogleApiClient client;
@@ -82,19 +84,10 @@ public class NavDrawerActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nav_drawer);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(NavDrawerActivity.this);
 
-        //recycler view
-
-        recyclerView = (RecyclerView) findViewById(R.id.recycleview);
-        LinearLayoutManager llm = new LinearLayoutManager(this);
-        llm.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(llm);
-
-        final UpdateAdapter adapter = new UpdateAdapter();
-        recyclerView.setAdapter(adapter);
-
+        setUpRecView();
 
         //UIL initialisation
         DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
@@ -113,13 +106,21 @@ public class NavDrawerActivity extends AppCompatActivity
 
         // get items from previous activity
 
-        String name = getSharedPreferences("login", Context.MODE_PRIVATE).getString("name", "123456789");
+       /* String name = getSharedPreferences("login", Context.MODE_PRIVATE).getString("name", "123456789");
         String email = getSharedPreferences("login", Context.MODE_PRIVATE).getString("email", "123456789");
         String image = getSharedPreferences("login", Context.MODE_PRIVATE).getString("imageurl", "");
         final String sem = getSharedPreferences("login", Context.MODE_PRIVATE).getString("sem", "123456789");
         final String sec = getSharedPreferences("login", Context.MODE_PRIVATE).getString("sec", "123456789");
-        final String dept = getSharedPreferences("login", Context.MODE_PRIVATE).getString("dept", "123456789");
+        final String dept = getSharedPreferences("login", Context.MODE_PRIVATE).getString("dept", "123456789");*/
         // getSharedPreferences("login", Context.MODE_PRIVATE).getString("number", "123456789");
+
+        String name = sharedPreferences.getString(Constants.NAME, "");
+        String email = sharedPreferences.getString(Constants.EMAIL, "");
+        String image = sharedPreferences.getString(Constants.IMAGE, "");
+        final String semester = sharedPreferences.getString(Constants.SEMESTER, "");
+        final String department = sharedPreferences.getString(Constants.DEPARTMENT, "");
+        final String section = sharedPreferences.getString(Constants.SECTION, "");
+
 
         Log.d("url", "onCreate: " + image);
 
@@ -142,7 +143,7 @@ public class NavDrawerActivity extends AppCompatActivity
 
         //set
         imageView = (ImageView) view.findViewById(R.id.imageView);
-        textView = (TextView) view.findViewById(R.id.textView);
+        textView = (TextView) view.findViewById(R.id.teachersNameTV);
         textView1 = (TextView) view.findViewById(R.id.textView1);
 
         if (!(image == null))
@@ -155,33 +156,36 @@ public class NavDrawerActivity extends AppCompatActivity
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("Post");
-        Log.d("megs", "onCreate: " + myRef.child(dept));
+        Log.d("megs", "onCreate: " + myRef.child(department));
 
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                text.clear();
-                images.clear();
-                type.clear();
-                dname.clear();
-                fname.clear();
-                Log.d("testm", "onDataChange: idiot" + dataSnapshot.child(dept).child(sem).child(sec).child("type").getValue());
-                for (DataSnapshot user : dataSnapshot.child(dept).child(sem).child(sec).getChildren()) {
+
+                dataModelArrayList.clear();
+                for (DataSnapshot user : dataSnapshot.child(department).child(semester).child(section).getChildren()) {
                     Log.d("testm", "onDataChange: idiot");
 
                     Log.d("test", "onDataChange: " + user.child("name").getValue());
 
-                    images.add(0,user.child("Url").getValue() + "");
-                    text.add(0,user.child("text").getValue() + "");
-                    type.add(0,user.child("type").getValue() + "");
-                    dname.add(0,user.child("name").getValue() + "");
-                    fname.add(0,user.child("filename").getValue() + "");
+                   /* images.add(0, user.child("Url").getValue() + "");
+                    text.add(0, user.child("text").getValue() + "");
+                    type.add(0, user.child("type").getValue() + "");
+                    dname.add(0, user.child("name").getValue() + "");
+                    fname.add(0, user.child("filename").getValue() + "");*/
 
+
+                    DataModel dataModel = new DataModel(user.child("Url").getValue(String.class),
+                            user.child("text").getValue(String.class),
+                            user.child("type").getValue(String.class),
+                            user.child("filename").getValue(String.class),
+                            user.child("name").getValue(String.class));
+
+                    dataModelArrayList.add(dataModel);
 
                 }
 
-                adapter.notifyItemInserted(0);
                 adapter.notifyDataSetChanged();
 
 
@@ -200,6 +204,21 @@ public class NavDrawerActivity extends AppCompatActivity
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+    }
+
+    private void setUpRecView() {
+
+        //recycler view
+
+        recyclerView = (RecyclerView) findViewById(R.id.recycleview);
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(llm);
+
+        adapter = new UpdateAdapter();
+        recyclerView.setAdapter(adapter);
+
+
     }
 
     @Override
@@ -261,45 +280,6 @@ public class NavDrawerActivity extends AppCompatActivity
         return true;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "NavDrawer Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app URL is correct.
-                Uri.parse("android-app://com.example.meghana.testing/http/host/path")
-        );
-        AppIndex.AppIndexApi.start(client, viewAction);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "NavDrawer Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app URL is correct.
-                Uri.parse("android-app://com.example.meghana.testing/http/host/path")
-        );
-        AppIndex.AppIndexApi.end(client, viewAction);
-        client.disconnect();
-    }
 
     public class UpdateAdapter extends RecyclerView.Adapter<UpdateAdapter.Holder> {
 
@@ -307,35 +287,34 @@ public class NavDrawerActivity extends AppCompatActivity
         @Override
         public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_card, parent, false);
-            Holder holder = new Holder(view);
-            return holder;
+            View view = LayoutInflater.from(NavDrawerActivity.this).inflate(R.layout.single_card, parent, false);
+            return new Holder(view);
         }
 
         @Override
         public void onBindViewHolder(final Holder holder, final int position) {
-            holder.tv.setText(text.get(position));
-            holder.displayname.setText("POSTED BY:" + dname.get(position));
-            Log.d("test", "onBindViewHolder: " + type.get(position));
+            holder.tv.setText(dataModelArrayList.get(position).text);
+            holder.displayName.setText("POSTED BY:" + dataModelArrayList.get(position).teachersName);
+            Log.d("test", "onBindViewHolder: " + dataModelArrayList.get(position).teachersName);
 
 
-            if (type.get(position).equals("text")) {
+            if (dataModelArrayList.get(position).type.equals("text")) {
 
                 holder.file_name.setVisibility(View.GONE);
                 holder.img.setVisibility(View.GONE);
                 //  holder.button.setVisibility(View.GONE);
-            } else if (type.get(position).equals("image")) {
+            } else if (dataModelArrayList.get(position).type.equals("image")) {
 
                 ImageLoader imagedisplay = ImageLoader.getInstance();
                 DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true)
                         .cacheOnDisc(true).resetViewBeforeLoading(true)
                         .build();
-                holder.file_name.setText(fname.get(position));
+                holder.file_name.setText(dataModelArrayList.get(position).filename);
 
-                imagedisplay.displayImage(images.get(position), holder.img, options);
+                imagedisplay.displayImage(dataModelArrayList.get(position).image, holder.img, options);
 
             } else {
-                holder.file_name.setText(fname.get(position));
+                holder.file_name.setText(dataModelArrayList.get(position).getFilename());
                 holder.img.setImageResource(R.drawable.ic_menu_send);
             }
 
@@ -349,9 +328,9 @@ public class NavDrawerActivity extends AppCompatActivity
                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
 
-                                    notificationbar(fname.get(position));
+                                    notificationbar(dataModelArrayList.get(position).getFilename());
 
-                                    new download().execute(images.get(position), fname.get(position));
+                                    new download().execute(dataModelArrayList.get(position).getImage(), dataModelArrayList.get(position).getFilename());
                                 }
                             })
                             .setIcon(android.R.drawable.ic_dialog_alert)
@@ -364,12 +343,12 @@ public class NavDrawerActivity extends AppCompatActivity
 
         @Override
         public int getItemCount() {
-            return text.size();
+            return dataModelArrayList.size();
         }
 
         public class Holder extends RecyclerView.ViewHolder {
             ImageView img;
-            TextView tv, file_name, displayname;
+            TextView tv, file_name, displayName;
             // Button button;
 
 
@@ -378,7 +357,7 @@ public class NavDrawerActivity extends AppCompatActivity
                 img = (ImageView) itemView.findViewById(R.id.getimage);
                 tv = (TextView) itemView.findViewById(R.id.gettext);
                 // button = (Button) itemView.findViewById(R.id.download);
-                displayname = (TextView) itemView.findViewById(R.id.displayname);
+                displayName = (TextView) itemView.findViewById(R.id.displayname);
                 file_name = (TextView) itemView.findViewById(R.id.name);
             }
         }
@@ -389,9 +368,9 @@ public class NavDrawerActivity extends AppCompatActivity
 
         String filePath = Environment.getExternalStorageDirectory() + "/download/" + s;
         File file = new File(filePath);
-        Log.d("test.APP_TAG ","File to download = " + String.valueOf(file));
+        Log.d("test.APP_TAG ", "File to download = " + String.valueOf(file));
         MimeTypeMap mime = MimeTypeMap.getSingleton();
-        String ext=file.getName().substring(file.getName().lastIndexOf(".")+1);
+        String ext = file.getName().substring(file.getName().lastIndexOf(".") + 1);
         String type = mime.getMimeTypeFromExtension(ext);
         Intent openFile = new Intent(Intent.ACTION_VIEW, Uri.fromFile(file));
         openFile.setDataAndType(Uri.fromFile(file), type);
@@ -404,8 +383,7 @@ public class NavDrawerActivity extends AppCompatActivity
                 .setContentText("Download in progress")
                 .setContentIntent(mPendingIntent)
                 .setSmallIcon(R.drawable.ic_menu_send)
-                 .setAutoCancel(true);
-
+                .setAutoCancel(true);
 
 
     }

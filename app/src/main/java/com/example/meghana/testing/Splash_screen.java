@@ -2,6 +2,8 @@ package com.example.meghana.testing;
 
 import android.content.Context;
 import android.content.Intent;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -19,8 +21,8 @@ public class Splash_screen extends AppCompatActivity {
             public void run() {
                 try {
                     Thread.sleep(1500);
-                    if (!getSharedPreferences("login", Context.MODE_PRIVATE).getString("login", "false").equals("false")) {
-                        intent = new Intent(Splash_screen.this, NavDrawerActivity.class);
+                    if (PreferenceManager.getDefaultSharedPreferences(Splash_screen.this).getBoolean(Constants.LOGIN_PREF,false)) {
+                        intent = new Intent(Splash_screen.this, NewsFeedActivity.class);
                     }
                     else {
                         intent = new Intent(Splash_screen.this, Login_students.class);

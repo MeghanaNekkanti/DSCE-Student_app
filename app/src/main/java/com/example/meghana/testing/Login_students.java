@@ -1,10 +1,9 @@
 package com.example.meghana.testing;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -31,8 +30,6 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.ArrayList;
-
 public class Login_students extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener, AdapterView.OnItemSelectedListener {
 
     private static final int RC_SIGN_IN = 9001;
@@ -41,9 +38,9 @@ public class Login_students extends AppCompatActivity implements GoogleApiClient
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    String student_uid, Usn, item, section, Dept,num;
+    String student_uid, Usn, item, section, Dept, num;
     EditText get_usn, number;
-    Spinner spinner1, spinner2,get_dept;
+    Spinner spinner1, spinner2, get_dept;
     ProgressDialog progressDialog;
 
 
@@ -65,7 +62,7 @@ public class Login_students extends AppCompatActivity implements GoogleApiClient
         number = (EditText) findViewById(R.id.number);
         spinner1 = (Spinner) findViewById(R.id.semester);
         spinner2 = (Spinner) findViewById(R.id.Section);
-        get_dept= (Spinner) findViewById(R.id.dept);
+        get_dept = (Spinner) findViewById(R.id.dept);
 
         ArrayAdapter<CharSequence> adapterdept = ArrayAdapter.createFromResource(this,
                 R.array.department, android.R.layout.simple_spinner_item);
@@ -218,7 +215,7 @@ public class Login_students extends AppCompatActivity implements GoogleApiClient
 
 //intent and shared preferences
 
-                            Intent intent = new Intent(Login_students.this, NavDrawerActivity.class);
+                            Intent intent = new Intent(Login_students.this, NewsFeedActivity.class);
                             intent.putExtra("name", acct.getDisplayName());
                             intent.putExtra("email", acct.getEmail());
                             intent.putExtra("semester", item);
@@ -231,7 +228,8 @@ public class Login_students extends AppCompatActivity implements GoogleApiClient
                             String Response = "true";
                             progressDialog.dismiss();
                             startActivity(intent);
-                            SharedPreferences.Editor editor = getSharedPreferences("login", Context.MODE_PRIVATE).edit();
+
+                            /*SharedPreferences.Editor editor = getSharedPreferences("login", Context.MODE_PRIVATE).edit();
                             editor.putString("name", acct.getDisplayName());
                             editor.putString("email", acct.getEmail());
                             editor.putString("sem", item);
@@ -240,7 +238,21 @@ public class Login_students extends AppCompatActivity implements GoogleApiClient
                             editor.putString("number", num);
                             editor.putString("imageurl", image);
                             editor.putString("login", Response);
-                            editor.apply();
+                            editor.apply();*/
+
+
+                            PreferenceManager.getDefaultSharedPreferences(Login_students.this)
+                                    .edit()
+                                    .putString(Constants.NAME, acct.getDisplayName())
+                                    .putString(Constants.EMAIL, acct.getEmail())
+                                    .putString(Constants.SEMESTER, item)
+                                    .putString(Constants.SECTION, section)
+                                    .putString(Constants.DEPARTMENT, Dept)
+                                    .putString(Constants.NUMBER, num)
+                                    .putString(Constants.IMAGE, image)
+                                    .putBoolean(Constants.LOGIN_PREF, true)
+                                    .apply();
+
                             finish();
 
 
