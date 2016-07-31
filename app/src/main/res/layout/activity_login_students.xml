@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.meghana.testing.Login_students">
+
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/sign_in_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:id="@+id/view">
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/enterusn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter your usn"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view"
+
+        android:id="@+id/view2">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter your number" />
+
+    </android.support.design.widget.TextInputLayout>
+
+
+
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/depttext"
+    android:layout_below="@+id/view2"
+    android:layout_marginTop="12dp"
+    android:text="Department"
+    android:textAppearance="@android:style/TextAppearance.Small"/>
+
+    <Spinner
+        android:id="@+id/dept"
+        android:layout_width="fill_parent"
+        android:layout_height="35dp"
+        android:layout_below="@+id/depttext"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/semtext"
+        android:layout_marginTop="12dp"
+        android:layout_below="@+id/dept"
+        android:text="Semester"
+        android:textAppearance="@android:style/TextAppearance.Small"/>
+
+    <Spinner
+        android:id="@+id/semester"
+        android:layout_width="fill_parent"
+        android:layout_height="35dp"
+        android:layout_below="@+id/semtext"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/sectext"
+        android:layout_below="@+id/semester"
+        android:layout_marginTop="12dp"
+        android:text="Section"
+        android:textAppearance="@android:style/TextAppearance.Small"/>
+    <Spinner
+        android:id="@+id/Section"
+        android:layout_width="fill_parent"
+        android:layout_height="35dp"
+        android:layout_below="@id/sectext"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+</RelativeLayout>
