@@ -212,6 +212,7 @@ public class Login_students extends AppCompatActivity implements GoogleApiClient
                             myRef.child(student_uid).child("Section").setValue(section);
                             myRef.child(student_uid).child("Dept").setValue(Dept);
                             myRef.child(student_uid).child("Number").setValue(num);
+                            myRef.child(student_uid).child("Token").setValue(PreferenceManager.getDefaultSharedPreferences(Login_students.this).getString("FIREBASE_CLOUD_MESSAGING_TOKEN","NA"));
 
 //intent and shared preferences
 
