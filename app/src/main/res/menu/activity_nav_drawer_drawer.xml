@@ -14,14 +14,6 @@
         android:id="@+id/edit_profile"
         android:icon="@drawable/ic_menu_share"/>
 
-    <item android:title="Developer">
-        <menu>
-            <item
-                android:id="@+id/nav_about"
-                android:icon="@drawable/ic_menu_share"
-                android:title="About" />
-        </menu>
-    </item>
 
     <item android:title="Communicate">
         <menu>

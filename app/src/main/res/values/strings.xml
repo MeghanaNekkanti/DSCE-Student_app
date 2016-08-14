@@ -32,12 +32,23 @@
 
     <string-array name="department">
         <!--<item>Section</item>-->
-        <item>ALL(1ST YEAR)</item>
-        <item>CSE</item>
-        <item>EEE</item>
-        <item>ECE</item>
-        <item>ISE</item>
-        <item>MECHANICAL</item>
+        <item>FIRST YEAR</item>
+        <item>Aeronautical Engineering</item>
+        <item>Automobile Engineering</item>
+        <item>Bachelor of Architecture</item>
+        <item>Biotechnology</item>
+        <item>Chemical Engineering</item>
+        <item>Civil Engineering</item>
+        <item>Computer Science Engineering</item>
+        <item>Construction Technology and Management</item>
+        <item>Electrical and Electronics Engineering</item>
+        <item>Electronics and Communication Engineering</item>
+        <item>Industrial Engineering and Management</item>
+        <item>Information Science and Engineering</item>
+        <item>Electronics and Instrumentation Engineering</item>
+        <item>Mechanical Engineering</item>
+        <item>Medical-Electronics Engineering</item>
+        <item>Telecommunication Engineering</item>
 
     </string-array>
     <string name="title_activity_nav_drawer">NavDrawerActivity</string>

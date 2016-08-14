@@ -206,12 +206,6 @@ public class NewsFeedActivity extends AppCompatActivity
             sendIntent.putExtra(Intent.EXTRA_TEXT, "Download the app at http://play.google.com/store/apps/details?id=" + getBaseContext().getPackageName() + " to receive notifications.");
             sendIntent.setType("text/plain");
             startActivity(Intent.createChooser(sendIntent, "DSCE Notify"));
-        } else if (id == R.id.nav_about) {
-            AlertDialog.Builder alertDialog = new AlertDialog.Builder(NewsFeedActivity.this);
-            alertDialog.setTitle("DSCE Notify Developer");
-            alertDialog.setMessage("App developed by Meghana Nekkanti (CSE,DSCE)");
-            alertDialog.setPositiveButton("OK", null);
-            alertDialog.show();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
