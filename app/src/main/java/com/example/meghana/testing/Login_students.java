@@ -78,12 +78,6 @@ public class Login_students extends AppCompatActivity implements GoogleApiClient
         spinner1.setPrompt("CHOOSE SEMESTER");
         spinner1.setOnItemSelectedListener(this);
 
-        ArrayAdapter<CharSequence> adaptersec = ArrayAdapter.createFromResource(this,
-                R.array.section, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner2.setPrompt("CHOOSE SECTION");
-        spinner2.setAdapter(adaptersec);
-        spinner2.setOnItemSelectedListener(this);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -179,6 +173,7 @@ public class Login_students extends AppCompatActivity implements GoogleApiClient
         } else {
 
             Toast.makeText(Login_students.this, "Failed,try again", Toast.LENGTH_SHORT).show();
+            progressDialog.dismiss();
             // Signed out, show unauthenticated UI.
         }
     }
@@ -212,7 +207,7 @@ public class Login_students extends AppCompatActivity implements GoogleApiClient
                             myRef.child(student_uid).child("Section").setValue(section);
                             myRef.child(student_uid).child("Dept").setValue(Dept);
                             myRef.child(student_uid).child("Number").setValue(num);
-                            myRef.child(student_uid).child("Token").setValue(PreferenceManager.getDefaultSharedPreferences(Login_students.this).getString("FIREBASE_CLOUD_MESSAGING_TOKEN","NA"));
+                            myRef.child(student_uid).child("Token").setValue(PreferenceManager.getDefaultSharedPreferences(Login_students.this).getString("FIREBASE_CLOUD_MESSAGING_TOKEN", "NA"));
 
 //intent and shared preferences
 
@@ -263,18 +258,62 @@ public class Login_students extends AppCompatActivity implements GoogleApiClient
 
     }
 
+    AdapterView.OnItemSelectedListener onItemSelectedListener1 =
+            new AdapterView.OnItemSelectedListener() {
+
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view,
+                                           int position, long id) {
+
+                    Spinner spinner2 = (Spinner) parent;
+                                      if (spinner2.getId() == R.id.Section)
+                        section = parent.getItemAtPosition(position).toString();
+
+
+
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            };
+
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-        Spinner spinner1 = (Spinner) parent;
-        Spinner spinner2 = (Spinner) parent;
+        Spinner spinner = (Spinner) parent;
         Spinner spinner3 = (Spinner) parent;
-        if (spinner1.getId() == R.id.semester)
-            item = parent.getItemAtPosition(position).toString();
-        if (spinner2.getId() == R.id.Section)
-            section = parent.getItemAtPosition(position).toString();
+
         if (spinner3.getId() == R.id.dept)
             Dept = parent.getItemAtPosition(position).toString();
+        if (spinner.getId() == R.id.semester)
+            item = parent.getItemAtPosition(position).toString();
+
+
+
+        String sp1 = String.valueOf(spinner1.getSelectedItem());
+//        Log.d(TAG, "onItemSelected: "+sp1);
+        if (sp1.contentEquals("1") || sp1.contentEquals("2")) {
+            ArrayAdapter<CharSequence> adaptercycle = ArrayAdapter.createFromResource(this,
+                    R.array.cycle, android.R.layout.simple_spinner_item);
+            adaptercycle.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner2.setPrompt("CHOOSE CYCLE");
+            spinner2.setAdapter(adaptercycle);
+            spinner2.setOnItemSelectedListener(onItemSelectedListener1);
+
+        } else {
+
+            ArrayAdapter<CharSequence> adaptersec = ArrayAdapter.createFromResource(this,
+                    R.array.section, android.R.layout.simple_spinner_item);
+            adaptersec.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner2.setPrompt("CHOOSE SECTION");
+            spinner2.setAdapter(adaptersec);
+            spinner2.setOnItemSelectedListener(onItemSelectedListener1);
+        }
+
+
+
 
 
     }
@@ -283,8 +322,8 @@ public class Login_students extends AppCompatActivity implements GoogleApiClient
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
-
-
 }
+
+
 
 

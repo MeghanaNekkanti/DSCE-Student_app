@@ -8,6 +8,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -24,6 +26,7 @@ import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -202,12 +205,18 @@ public class NotesFragment extends Fragment {
                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
 
-                                    notificationBar(list.get(position).getFilename());
+                                    if (hasConnection(getContext())) {
 
-                                    new download().execute(list.get(position).getImage(), list.get(position).getFilename());
+                                        notificationBar(list.get(position).getFilename());
+                                        new download().execute(list.get(position).getImage(), list.get(position).getFilename());
+                                    } else {
+
+                                        Toast.makeText(getActivity(), "No internet connection", Toast.LENGTH_SHORT).show();
+                                    }
+
                                 }
                             })
-                            .setIcon(android.R.drawable.ic_dialog_alert)
+//                            .setIcon(android.R.drawable.ic_dialog_alert)
                             .show();
                 }
             });
@@ -236,6 +245,32 @@ public class NotesFragment extends Fragment {
         }
 
     }
+
+
+    public static boolean hasConnection(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo wifiNetwork = cm
+                .getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        if (wifiNetwork != null && wifiNetwork.isConnected()) {
+            return true;
+        }
+
+        NetworkInfo mobileNetwork = cm
+                .getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+        if (mobileNetwork != null && mobileNetwork.isConnected()) {
+            return true;
+        }
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        if (activeNetwork != null && activeNetwork.isConnected()) {
+            return true;
+        }
+
+        return false;
+    }
+
 
     public class download extends AsyncTask<String, Integer, Void> {
         @Override
@@ -299,7 +334,8 @@ public class NotesFragment extends Fragment {
             super.onPostExecute(aVoid);
             build.setContentText("Download complete");
             // Removes the progress bar
-            build.setProgress(0, 0, false);
+            build.setProgress(0, 0, false)
+                    .setSmallIcon(android.R.drawable.stat_sys_download_done);
             mNotifyManager.notify(id, build.build());
         }
     }
@@ -326,7 +362,7 @@ public class NotesFragment extends Fragment {
         build.setContentTitle("Download")
                 .setContentText("Download in progress")
                 .setContentIntent(mPendingIntent)
-                .setSmallIcon(android.R.drawable.stat_sys_download_done)
+                .setSmallIcon(android.R.drawable.stat_sys_download)
                 .setAutoCancel(true);
 
 

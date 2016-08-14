@@ -23,8 +23,16 @@
 
     </string-array>
 
+    <string-array name="cycle">
+        <!--<item>Section</item>-->
+        <item>PHYSICS</item>
+        <item>CHEMISTRY</item>
+
+    </string-array>
+
     <string-array name="department">
         <!--<item>Section</item>-->
+        <item>ALL(1ST YEAR)</item>
         <item>CSE</item>
         <item>EEE</item>
         <item>ECE</item>
