@@ -94,6 +94,8 @@ public class Login_students extends AppCompatActivity implements GoogleApiClient
                 } else {
                     // User is signed out
                     Log.d("signout", "onAuthStateChanged:signed_out");
+
+
                 }
 
             }
