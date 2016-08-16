@@ -1,4 +1,4 @@
-package com.example.meghana.testing;
+package com.dsce.students.notify;
 
 import android.preference.PreferenceManager;
 import android.util.Log;

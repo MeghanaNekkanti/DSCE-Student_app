@@ -1,4 +1,4 @@
-package com.example.meghana.testing;
+package com.dsce.students.notify;
 
 
 import android.content.SharedPreferences;

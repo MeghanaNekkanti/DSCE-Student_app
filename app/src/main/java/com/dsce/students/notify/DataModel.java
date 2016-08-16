@@ -1,4 +1,4 @@
-package com.example.meghana.testing;
+package com.dsce.students.notify;
 
 /**
  * Created by darshan on 31/07/16.

@@ -1,6 +1,5 @@
-package com.example.meghana.testing;
+package com.dsce.students.notify;
 
-import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.SharedPreferences;

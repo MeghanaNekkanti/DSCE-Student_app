@@ -1,8 +1,6 @@
-package com.example.meghana.testing;
+package com.dsce.students.notify;
 
-import android.content.Context;
 import android.content.Intent;
-import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

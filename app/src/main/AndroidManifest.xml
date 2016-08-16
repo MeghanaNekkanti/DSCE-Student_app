@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.meghana.testing">
+    package="com.dsce.students.notify">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -11,9 +11,9 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Login_students"></activity>
+        <activity android:name="com.dsce.students.notify.Login_students"></activity>
         <activity
-            android:name=".NavDrawerActivity"
+            android:name="com.dsce.students.notify.NavDrawerActivity"
             android:label="@string/title_activity_nav_drawer"
             android:theme="@style/AppTheme.NoActionBar" />
         <!--
@@ -24,18 +24,18 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <service android:name=".MyFirebaseMessagingService">
+        <service android:name="com.dsce.students.notify.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".MyFirebaseInstanceIDService">
+        <service android:name="com.dsce.students.notify.MyFirebaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
 
-        <activity android:name=".Splash_screen">
+        <activity android:name="com.dsce.students.notify.Splash_screen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -43,7 +43,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".NewsFeedActivity"
+            android:name="com.dsce.students.notify.NewsFeedActivity"
             android:label="@string/title_activity_news_feed"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
