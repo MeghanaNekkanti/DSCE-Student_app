@@ -195,9 +195,9 @@ public class Login_students extends AppCompatActivity implements GoogleApiClient
                             Toast.makeText(Login_students.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(Login_students.this, "Authentication success.",
+                           /* Toast.makeText(Login_students.this, "Authentication success.",
                                     Toast.LENGTH_SHORT).show();
-
+*/
 //firebase database
                             FirebaseDatabase database = FirebaseDatabase.getInstance();
                             DatabaseReference myRef = database.getReference("Students");
