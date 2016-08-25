@@ -8,6 +8,7 @@ public class Constants {
     public static String PACKAGE = "com.example.meghana.testing";
     public static String NAME = PACKAGE+"_name";
     public static String EMAIL = PACKAGE+"_email";
+    public static String USN = PACKAGE+"_usn";
     public static String IMAGE = PACKAGE+"_image";
     public static String NUMBER = PACKAGE+"_number";
     public static String DEPARTMENT = PACKAGE+"_department";

@@ -248,6 +248,7 @@ public class Login_students extends AppCompatActivity implements GoogleApiClient
                                     .putString(Constants.DEPARTMENT, Dept)
                                     .putString(Constants.NUMBER, num)
                                     .putString(Constants.IMAGE, image)
+                                    .putString(Constants.USN,Usn)
                                     .putBoolean(Constants.LOGIN_PREF, true)
                                     .apply();
 

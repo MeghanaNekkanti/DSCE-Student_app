@@ -136,6 +136,8 @@ public class NewsFeedActivity extends AppCompatActivity
 
         if (!(image.equals("")))
             imageLoader.displayImage(image, imageView, options);
+        else
+            imageView.setImageResource(R.drawable.profilepic);
 
         textView.setText(name);
         textView1.setText(email);
@@ -180,12 +182,17 @@ public class NewsFeedActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-            Toast.makeText(NewsFeedActivity.this, "Yet to be implemented", Toast.LENGTH_SHORT).show();
+        if (id == R.id.my_profile) {
+
+            Intent profileIntent = new Intent(NewsFeedActivity.this, UserProfileActivity.class);
+            startActivity(profileIntent);
+
         } else if (id == R.id.edit_profile) {
+
             Toast.makeText(NewsFeedActivity.this, "Yet to be implemented", Toast.LENGTH_SHORT).show();
+
         } else if (id == R.id.nav_rate) {
+
             Uri uri = Uri.parse("market://details?id=" + getBaseContext().getPackageName());
             Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
             // To count with Play market backstack, After pressing back button,
@@ -211,6 +218,7 @@ public class NewsFeedActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 
     public class Pager extends FragmentStatePagerAdapter {
 

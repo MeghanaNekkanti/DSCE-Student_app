@@ -1,7 +1,12 @@
 <resources>
     <string name="app_name">DSCE Notify</string>
 
-
+    <string name="label_name"> <b>Name</b></string>
+    <string name="label_usn"> <b>Usn</b></string>
+    <string name="label_mail"> <b>Mail</b></string>
+    <string name="label_num"> <b>Number</b></string>
+    <string name="label_department"> <b>Department</b></string>
+    <string name="label_sem_sec"> <b>Semester and Section</b></string>
     <string-array name="semester">
         <!--<item>Semester</item>-->
         <item>1</item>

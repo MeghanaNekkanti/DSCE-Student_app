@@ -3,8 +3,8 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
+            android:id="@+id/my_profile"
+            android:icon="@drawable/profile"
             android:title="Myprofile" />
 
     </group>
