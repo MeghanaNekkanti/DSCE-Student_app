@@ -30,17 +30,20 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.Serializable;
+import java.util.HashMap;
+
 public class Login_students extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener, AdapterView.OnItemSelectedListener {
 
     private static final int RC_SIGN_IN = 9001;
     private static final String TAG = "testing";
-    private GoogleApiClient mGoogleApiClient;
+    public static GoogleApiClient mGoogleApiClient;
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    String student_uid, Usn, item, section, Dept, num;
+    String studentUid, Usn, semester, section, Dept, num;
     EditText get_usn, number;
-    Spinner spinner1, spinner2, get_dept;
+    Spinner spinner1, spinner2, getDept;
     ProgressDialog progressDialog;
 
 
@@ -57,45 +60,38 @@ public class Login_students extends AppCompatActivity implements GoogleApiClient
                 .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
+
         findViewById(R.id.sign_in_button).setOnClickListener(this);
         get_usn = (EditText) findViewById(R.id.enterusn);
         number = (EditText) findViewById(R.id.number);
         spinner1 = (Spinner) findViewById(R.id.semester);
         spinner2 = (Spinner) findViewById(R.id.Section);
-        get_dept = (Spinner) findViewById(R.id.dept);
+        getDept = (Spinner) findViewById(R.id.dept);
 
-        ArrayAdapter<CharSequence> adapterdept = ArrayAdapter.createFromResource(this,
+        ArrayAdapter<CharSequence> adapterDept = ArrayAdapter.createFromResource(this,
                 R.array.department, android.R.layout.simple_spinner_item);
-        adapterdept.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        get_dept.setAdapter(adapterdept);
-        get_dept.setPrompt("CHOOSE DEPARTMENT");
-        get_dept.setOnItemSelectedListener(this);
+        adapterDept.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        getDept.setAdapter(adapterDept);
+        getDept.setOnItemSelectedListener(this);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.semester, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner1.setAdapter(adapter);
-        spinner1.setPrompt("CHOOSE SEMESTER");
         spinner1.setOnItemSelectedListener(this);
 
 
         mAuth = FirebaseAuth.getInstance();
-
-
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
+                    studentUid = user.getUid();
 
-                    // User is signed in
-                    student_uid = user.getUid();
                     Log.d("user", "onAuthStateChanged:signed_in:" + user.getUid());
                 } else {
-                    // User is signed out
                     Log.d("signout", "onAuthStateChanged:signed_out");
-
-
                 }
 
             }
@@ -195,28 +191,29 @@ public class Login_students extends AppCompatActivity implements GoogleApiClient
                             Toast.makeText(Login_students.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         } else {
-                           /* Toast.makeText(Login_students.this, "Authentication success.",
-                                    Toast.LENGTH_SHORT).show();
-*/
+
+
 //firebase database
                             FirebaseDatabase database = FirebaseDatabase.getInstance();
                             DatabaseReference myRef = database.getReference("Students");
 
+                            HashMap<String, Object> hashMap = new HashMap<>();
+                            hashMap.put("Usn", Usn);
+                            hashMap.put("Number", num);
+                            hashMap.put("Department", Dept);
+                            hashMap.put("Semester", semester);
+                            hashMap.put("Section", section);
+                            hashMap.put("Email", acct.getEmail());
+                            hashMap.put("Token", PreferenceManager.getDefaultSharedPreferences(Login_students.this).getString("FIREBASE_CLOUD_MESSAGING_TOKEN", "NA"));
 
-                            myRef.child(student_uid).child("Usn").setValue(Usn);
-                            myRef.child(student_uid).child("Email").setValue(acct.getEmail());
-                            myRef.child(student_uid).child("Semester").setValue(item);
-                            myRef.child(student_uid).child("Section").setValue(section);
-                            myRef.child(student_uid).child("Dept").setValue(Dept);
-                            myRef.child(student_uid).child("Number").setValue(num);
-                            myRef.child(student_uid).child("Token").setValue(PreferenceManager.getDefaultSharedPreferences(Login_students.this).getString("FIREBASE_CLOUD_MESSAGING_TOKEN", "NA"));
-
+                            myRef.child(studentUid).setValue(hashMap);
 //intent and shared preferences
+
 
                             Intent intent = new Intent(Login_students.this, NewsFeedActivity.class);
                             intent.putExtra("name", acct.getDisplayName());
                             intent.putExtra("email", acct.getEmail());
-                            intent.putExtra("semester", item);
+                            intent.putExtra("semester", semester);
                             intent.putExtra("section", section);
                             intent.putExtra("dept", Dept);
                             intent.putExtra("number", num);
@@ -243,17 +240,16 @@ public class Login_students extends AppCompatActivity implements GoogleApiClient
                                     .edit()
                                     .putString(Constants.NAME, acct.getDisplayName())
                                     .putString(Constants.EMAIL, acct.getEmail())
-                                    .putString(Constants.SEMESTER, item)
+                                    .putString(Constants.SEMESTER, semester)
                                     .putString(Constants.SECTION, section)
                                     .putString(Constants.DEPARTMENT, Dept)
                                     .putString(Constants.NUMBER, num)
                                     .putString(Constants.IMAGE, image)
-                                    .putString(Constants.USN,Usn)
+                                    .putString(Constants.USN, Usn)
                                     .putBoolean(Constants.LOGIN_PREF, true)
                                     .apply();
 
                             finish();
-
 
                         }
                     }
@@ -269,10 +265,8 @@ public class Login_students extends AppCompatActivity implements GoogleApiClient
                                            int position, long id) {
 
                     Spinner spinner2 = (Spinner) parent;
-                                      if (spinner2.getId() == R.id.Section)
+                    if (spinner2.getId() == R.id.Section)
                         section = parent.getItemAtPosition(position).toString();
-
-
 
                 }
 
@@ -291,33 +285,25 @@ public class Login_students extends AppCompatActivity implements GoogleApiClient
         if (spinner3.getId() == R.id.dept)
             Dept = parent.getItemAtPosition(position).toString();
         if (spinner.getId() == R.id.semester)
-            item = parent.getItemAtPosition(position).toString();
-
-
+            semester = parent.getItemAtPosition(position).toString();
 
         String sp1 = String.valueOf(spinner1.getSelectedItem());
 //        Log.d(TAG, "onItemSelected: "+sp1);
         if (sp1.contentEquals("1") || sp1.contentEquals("2")) {
-            ArrayAdapter<CharSequence> adaptercycle = ArrayAdapter.createFromResource(this,
+            ArrayAdapter<CharSequence> adapterCycle = ArrayAdapter.createFromResource(this,
                     R.array.cycle, android.R.layout.simple_spinner_item);
-            adaptercycle.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            spinner2.setPrompt("CHOOSE CYCLE");
-            spinner2.setAdapter(adaptercycle);
+            adapterCycle.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner2.setAdapter(adapterCycle);
             spinner2.setOnItemSelectedListener(onItemSelectedListener1);
 
         } else {
 
-            ArrayAdapter<CharSequence> adaptersec = ArrayAdapter.createFromResource(this,
+            ArrayAdapter<CharSequence> adapterSec = ArrayAdapter.createFromResource(this,
                     R.array.section, android.R.layout.simple_spinner_item);
-            adaptersec.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            spinner2.setPrompt("CHOOSE SECTION");
-            spinner2.setAdapter(adaptersec);
+            adapterSec.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner2.setAdapter(adapterSec);
             spinner2.setOnItemSelectedListener(onItemSelectedListener1);
         }
-
-
-
-
 
     }
 

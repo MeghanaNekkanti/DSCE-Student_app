@@ -17,7 +17,7 @@ import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 public class UserProfileActivity extends AppCompatActivity {
 
     ImageView userImage;
-    TextView userName, userMail, userNumber, userUsn, userSemSec,userDepartment;
+    TextView userName, userMail, userNumber, userUsn, userSemSec, userDepartment;
 
 
     @Override
@@ -25,14 +25,14 @@ public class UserProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
 
-        userImage= (ImageView) findViewById(R.id.user_image);
+        userImage = (ImageView) findViewById(R.id.user_image);
 
-        userName= (TextView) findViewById(R.id.user_name);
-        userMail= (TextView) findViewById(R.id.user_mail);
-        userNumber= (TextView) findViewById(R.id.user_number);
-        userUsn= (TextView) findViewById(R.id.user_usn);
-        userDepartment= (TextView) findViewById(R.id.user_department);
-        userSemSec= (TextView) findViewById(R.id.user_sem_sec);
+        userName = (TextView) findViewById(R.id.user_name);
+        userMail = (TextView) findViewById(R.id.user_mail);
+        userNumber = (TextView) findViewById(R.id.user_number);
+        userUsn = (TextView) findViewById(R.id.user_usn);
+        userDepartment = (TextView) findViewById(R.id.user_department);
+        userSemSec = (TextView) findViewById(R.id.user_sem_sec);
 
         userProfile();
 
@@ -73,7 +73,6 @@ public class UserProfileActivity extends AppCompatActivity {
                 .build();
 
 
-
         if (!(image.equals("")))
             imageLoader.displayImage(image, userImage, options);
         else
@@ -84,7 +83,7 @@ public class UserProfileActivity extends AppCompatActivity {
         userNumber.setText(number);
         userUsn.setText(Usn);
         userDepartment.setText(department);
-        userSemSec.setText(semester+ " / "+ section);
+        userSemSec.setText(semester + " / " + section);
 
 
     }

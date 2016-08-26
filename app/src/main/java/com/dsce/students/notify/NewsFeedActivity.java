@@ -24,8 +24,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -40,6 +40,8 @@ public class NewsFeedActivity extends AppCompatActivity
 
     ImageView imageView;
     TextView textView, textView1;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,11 +83,8 @@ public class NewsFeedActivity extends AppCompatActivity
 
         tabLayout.setupWithViewPager(viewPager);
 
-
         View view = navigationView.getHeaderView(0);
-
         setUserData(view);
-
 
     }
 
@@ -189,7 +188,13 @@ public class NewsFeedActivity extends AppCompatActivity
 
         } else if (id == R.id.edit_profile) {
 
-            Toast.makeText(NewsFeedActivity.this, "Yet to be implemented", Toast.LENGTH_SHORT).show();
+            Intent editIntent = new Intent(NewsFeedActivity.this, EditProfileActivity.class);
+            startActivity(editIntent);
+//            Toast.makeText(NewsFeedActivity.this, "Yet to be implemented", Toast.LENGTH_SHORT).show();
+
+        } else if (id == R.id.action_log_out) {
+
+            FirebaseAuth.getInstance().signOut();
 
         } else if (id == R.id.nav_rate) {
 

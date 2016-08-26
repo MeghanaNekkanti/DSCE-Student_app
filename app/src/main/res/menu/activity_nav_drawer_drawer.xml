@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/my_profile"
-            android:icon="@drawable/profile"
-            android:title="Myprofile" />
+    <item
+        android:id="@+id/my_profile"
+        android:icon="@drawable/profile"
+        android:title="My profile" />
 
-    </group>
 
     <item
-        android:title="Edit"
         android:id="@+id/edit_profile"
-        android:icon="@drawable/ic_menu_share"/>
+        android:icon="@drawable/editicon"
+        android:title="Edit" />
 
 
     <item android:title="Communicate">
@@ -28,5 +26,13 @@
         </menu>
     </item>
 
+    <item android:title="Exit">
+    <menu>
+        <item
+            android:id="@+id/action_log_out"
+            android:icon="@drawable/acct_logout"
+            android:title="Sign Out" />
+    </menu>
+    </item>
 
 </menu>

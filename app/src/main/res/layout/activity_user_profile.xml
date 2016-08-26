@@ -16,11 +16,22 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <TextView
+                android:id="@+id/user_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:textColor="@color/primary_text"
+                android:textSize="21sp"
+                android:textStyle="bold" />
+
             <ImageView
                 android:id="@+id/user_image"
                 android:layout_width="180dp"
                 android:layout_height="180dp"
-                android:layout_centerHorizontal="true" />
+                android:layout_below="@+id/user_name"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="6dp" />
 
 
             <android.support.v7.widget.CardView
@@ -33,36 +44,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <TextView
-                        android:id="@+id/label"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp"
-                        android:text="@string/label_name"
-                        android:textColor="@color/accent" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_below="@id/label"
-                        android:background="@color/accent" />
-
-                    <TextView
-                        android:id="@+id/user_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/label"
-                        android:layout_marginTop="6dp"
-                        android:text="Name"
-                        android:textColor="@color/primary_text"
-                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/label_usn"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/user_name"
                         android:layout_marginTop="8dp"
+                        android:textSize="16sp"
                         android:text="@string/label_usn"
                         android:textColor="@color/accent" />
 
@@ -79,9 +67,8 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/label_usn"
                         android:layout_marginTop="6dp"
-                        android:text="Name"
                         android:textColor="@color/primary_text"
-                        android:textSize="16sp" />
+                        android:textSize="18sp" />
 
                     <TextView
                         android:id="@+id/label1"
@@ -89,6 +76,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/user_usn"
                         android:layout_marginTop="8dp"
+                        android:textSize="16sp"
                         android:text="@string/label_num"
                         android:textColor="@color/accent" />
 
@@ -105,11 +93,12 @@
                         android:layout_below="@+id/label1"
                         android:layout_marginTop="6dp"
                         android:textColor="@color/primary_text"
-                        android:textSize="16sp" />
+                        android:textSize="18sp" />
 
                     <TextView
                         android:id="@+id/label_mail"
                         android:layout_width="match_parent"
+                        android:textSize="16sp"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/user_number"
                         android:layout_marginTop="8dp"
@@ -129,12 +118,13 @@
                         android:layout_below="@+id/label_mail"
                         android:layout_marginTop="6dp"
                         android:textColor="@color/primary_text"
-                        android:textSize="16sp" />
+                        android:textSize="18sp" />
 
 
                     <TextView
                         android:id="@+id/label2"
                         android:layout_width="match_parent"
+                        android:textSize="16sp"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/user_mail"
                         android:layout_marginTop="8dp"
@@ -154,7 +144,7 @@
                         android:layout_below="@+id/label2"
                         android:layout_marginTop="6dp"
                         android:textColor="@color/primary_text"
-                        android:textSize="16sp" />
+                        android:textSize="18sp" />
 
                     <TextView
                         android:id="@+id/label3"
@@ -162,9 +152,9 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/user_department"
                         android:layout_marginTop="8dp"
-                        android:textSize="14sp"
                         android:text="@string/label_sem_sec"
-                        android:textColor="@color/accent" />
+                        android:textColor="@color/accent"
+                        android:textSize="16sp" />
 
                     <View
                         android:layout_width="match_parent"
@@ -180,7 +170,7 @@
                         android:layout_marginTop="6dp"
                         android:paddingBottom="8dp"
                         android:textColor="@color/primary_text"
-                        android:textSize="16sp" />
+                        android:textSize="18sp" />
 
                 </RelativeLayout>
             </android.support.v7.widget.CardView>
