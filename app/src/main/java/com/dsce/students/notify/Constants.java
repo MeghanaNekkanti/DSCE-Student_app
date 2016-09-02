@@ -12,7 +12,6 @@ public class Constants {
     public static String IMAGE = PACKAGE+"_image";
     public static String NUMBER = PACKAGE+"_number";
     public static String DEPARTMENT = PACKAGE+"_department";
-    public static String GOOGLE = PACKAGE+"_google";
     public static String SEMESTER = PACKAGE+"_semester";
     public static String SECTION = PACKAGE+"_section";
     public static String LOGIN_PREF = PACKAGE+"_login";

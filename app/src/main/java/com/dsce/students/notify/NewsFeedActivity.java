@@ -190,11 +190,18 @@ public class NewsFeedActivity extends AppCompatActivity
 
             Intent editIntent = new Intent(NewsFeedActivity.this, EditProfileActivity.class);
             startActivity(editIntent);
-//            Toast.makeText(NewsFeedActivity.this, "Yet to be implemented", Toast.LENGTH_SHORT).show();
+            //            Toast.makeText(NewsFeedActivity.this, "Yet to be implemented", Toast.LENGTH_SHORT).show();
 
         } else if (id == R.id.action_log_out) {
 
             FirebaseAuth.getInstance().signOut();
+            PreferenceManager.getDefaultSharedPreferences(NewsFeedActivity.this)
+                    .edit()
+                    .putBoolean(Constants.LOGIN_PREF, false)
+                    .apply();
+            Intent intent = new Intent(NewsFeedActivity.this, Login_students.class);
+            startActivity(intent);
+            finish();
 
         } else if (id == R.id.nav_rate) {
 
